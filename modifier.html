@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifier le matériel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input {
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Modifier le Matériel</h1>
+    <form action="{{ url_for('modifier', materiel_id=materiel[0]) }}" method="post">
+        <label for="type_materiel">Type :</label>
+        <input type="text" name="type_materiel" id="type_materiel" value="{{ materiel[1] }}" required>
+
+        <label for="numero_serie">Numéro de série :</label>
+        <input type="text" name="numero_serie" id="numero_serie" value="{{ materiel[2] }}" required>
+
+        <label for="emplacement">Emplacement :</label>
+        <input type="text" name="emplacement" id="emplacement" value="{{ materiel[4] }}" required>
+
+        <label for="modele">Modèle :</label>
+        <input type="text" name="modele" id="modele" value="{{ materiel[3] }}" required>
+
+        <label for="id_gresa">ID Gresa :</label>
+        <input type="text" name="id_gresa" id="id_gresa" value="{{ materiel[5] }}" required>
+
+        <label for="date_distribution">Date de distribution :</label>
+        <input type="text" name="date_distribution" id="date_distribution" value="{{ materiel[6] }}" required>
+
+        <label for="nobre_materiel">Nombre de matériel :</label>
+        <input type="text" name="nobre_materiel" id="nobre_materiel" value="{{ materiel[7] }}" required>
+
+        <button type="submit">Modifier</button>
+    </form>
+</body>
+</html>

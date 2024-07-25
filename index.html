@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion du matériel informatique</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        .flash {
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .flash.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .flash.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .flash.warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gestion du matériel informatique</h1>
+
+    <!-- Affichage des messages flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- Formulaire de recherche -->
+    <form action="{{ url_for('rechercher') }}" method="POST">
+        <label for="numero_serie">Numéro de série :</label>
+        <input type="text" name="numero_serie" id="numero_serie" required>
+        <button type="submit">Rechercher</button>
+    </form>
+
+    <!-- Formulaire d'ajout -->
+    <h2>Ajouter un matériel</h2>
+    <form action="{{ url_for('ajouter') }}" method="post">
+        <label for="type_materiel">Type :</label>
+        <input type="text" name="type_materiel" id="type_materiel" required><br>
+        <label for="numero_serie">Numéro de série :</label>
+        <input type="text" name="numero_serie" id="numero_serie" required><br>
+        <label for="emplacement">Emplacement :</label>
+        <input type="text" name="emplacement" id="emplacement" required><br>
+        <label for="modele">Modèle :</label>
+        <input type="text" name="modele" id="modele" required><br>
+        <label for="id_gresa">ID Gresa :</label>
+        <input type="text" name="id_gresa" id="id_gresa" required><br>
+        <label for="date_distribution">Date de distribution :</label>
+        <input type="text" name="date_distribution" id="date_distribution" placeholder="jj/mm/aaaa" required><br>
+        <label for="nobre_materiel">Nombre de matériel :</label>
+        <input type="text" name="nobre_materiel" id="nobre_materiel" required><br>
+        <button type="submit">Ajouter</button>
+    </form>
+
+    <!-- Liste des matériels -->
+    <h2>Liste des matériels</h2>
+    <table>
+        <tr>
+            <th>Type_materiel</th>
+            <th>Numéro de série</th>
+            <th>Emplacement</th>
+            <th>Modèle</th>
+            <th>ID Gresa</th>
+            <th>Date de distribution</th>
+            <th>Nombre de matériel</th>
+            <th>Actions</th>
+        </tr>
+        {% for item in data %}
+        <tr>
+            <td>{{ item[0] }}</td>
+            <td>{{ item[2] }}</td>
+            <td>{{ item[1] }}</td>
+            <td>{{ item[3] }}</td>
+            <td>{{ item[4] }}</td>
+            <td>{{ item[6] }}</td>
+            <td>{{ item[7] }}</td>
+            <td>
+                <a href="{{ url_for('modifier', materiel_id=item[5]) }}">Modifier</a>
+                <form action="{{ url_for('supprimer', materiel_id=item[5]) }}" method="post" style="display:inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet enregistrement ?');">
+                    <button type="submit">Supprimer</button>
+                </form>
+                <form action="{{ url_for('imprimer', materiel_id=item[5]) }}" method="get" style="display:inline;">
+                    <button type="submit">Imprimer</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
